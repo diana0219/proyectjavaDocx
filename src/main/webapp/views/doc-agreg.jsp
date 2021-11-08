@@ -9,7 +9,7 @@
 <body>
 <h2> Registro nuevo documento</h2>
 <br>
-<form action="" method="post" autocomplete="off">
+<form action="DocumentosController?accion=insertar" method="POST" autocomplete="off">
 
 <p>
 Nombre documento:

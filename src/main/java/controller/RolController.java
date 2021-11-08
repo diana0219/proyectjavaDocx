@@ -31,9 +31,7 @@ public class RolController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -59,14 +57,22 @@ public class RolController extends HttpServlet {
 				case "delete":
 					delete(request,response);
 					
+				case "ver":
+					ver(request,response);
+				break;
+				
+				/*case "edit":
+					edit(request,response);
+				break;
+					*/
 					
 					default:
-						response.sendRedirect("login.jsp");
+						response.sendRedirect("index.jsp");
 						
 				}
 				
 			}else {
-					response.sendRedirect("login.jsp");
+					response.sendRedirect("index.jsp");
 				}
 				
 			
@@ -138,8 +144,8 @@ public class RolController extends HttpServlet {
 		
 		private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
-				if(request.getParameter("idRol") !=null) {
-					r.setIdRol(Integer.parseInt(request.getParameter("idRol")));
+				if(request.getParameter("id") !=null) {
+					r.setIdRol(Integer.parseInt(request.getParameter("id")));
 				}
 				
 				try {
@@ -151,7 +157,44 @@ public class RolController extends HttpServlet {
 					System.out.println("Error al eliminar el Rol");
 				}
 			}
+		
+		
+		private void ver(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+			r.setIdRol(Integer.parseInt(request.getParameter("id")));
+			try {
+				r=rdao.consultaId(r.getIdRol());
+				request.setAttribute("roles",r);
+				request.getRequestDispatcher("views/Rol-Edit.jsp").forward(request, response);
+				System.out.println("Rol encontrado");
+				
+				
+			}catch(Exception e) {
+				System.out.println("Rol no encontrado "+e.getMessage());
+			}
+			finally {
+				
+			}
+			
+		}
+		
+		private void  edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			if(request.getParameter("id")!=null && request.getParameter("rol") !=null) {
+				
+				r.setIdRol(Integer.parseInt(request.getParameter("id")));
+				r.setRol(request.getParameter("rol"));
+			}
+			
+			try {
+				rdao.edit(r);
+				response.sendRedirect("RolController?accion=listarRoles");
+				System.out.println("Rol cambiado");
+			}catch(Exception e) {
+				
+				System.out.println("Error al cambiar el Rol");
+			}
+		}
 		
 
 }

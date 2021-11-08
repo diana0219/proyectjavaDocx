@@ -26,6 +26,8 @@
 	<td><c:out value="${docvo.obligatorio_s_n }"/></td>
 	
 	
+	
+	
 	</tr>
 	
 	

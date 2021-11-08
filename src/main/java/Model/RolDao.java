@@ -63,7 +63,7 @@ public class RolDao {
 
 
 	public int registrar(RolVo r) throws SQLException {
-		sql="insert into rol(rol,idUsuario) VALUES (?)";
+		sql="insert into rol(rol) VALUES (?)";
 		
 		try {
 			con=c.conexion(); //Abriendo la conexión a la BD
@@ -88,7 +88,7 @@ public class RolDao {
 
 
 public int eliminar(int id) throws SQLException {
-	sql="delete from rol WHERE id="+id;
+	sql="delete from rol WHERE idRol="+id;
 	
 	try {
 		con=c.conexion(); //Abriendo la conexión a la BD
@@ -107,5 +107,58 @@ public int eliminar(int id) throws SQLException {
 	}
 	return row;//Retorna cantidad de filas afectadas
 }
+
+public RolVo consultaId(int id) throws SQLException {
 	
+	RolVo r=new RolVo();
+	sql="SELECT *from rol WHERE idRol="+id;
+	try {
+		con=c.conexion(); //Abriendo la conexión a la BD
+		ps=con.prepareStatement(sql); //preparar sentencia
+		rs=ps.executeQuery();//Ejeución de la sentencia guardar resultado en el resulset
+		
+		while(rs.next()) {
+			
+			r.setIdRol(rs.getInt("idRol"));
+			r.setRol(rs.getString("rol"));
+			
+			System.out.println("Consulta exitosa");
+			
+		}
+		
+		ps.close();
+		
+		
+	}catch(Exception e) {
+		System.out.println("Consulta no exitosa" +e.getMessage());
+	}
+	finally {
+		con.close();
+	}
+	return r;
+}
+	
+public int edit(RolVo r) throws SQLException {
+	sql="UPDATE rol SET rol=? WHERE idRol="+r.getIdRol();
+	
+	try {
+		con=c.conexion(); //Abriendo la conexión a la BD
+		ps=con.prepareStatement(sql); //preparar sentencia
+		ps.setString(1, r.getRol());
+		
+		
+		System.out.println(ps);
+		ps.executeUpdate();//Ejeución de la sentencia	
+		ps.close();
+		System.out.println("Se cambió el rol");
+		
+	}catch(Exception e) {
+		System.out.println("Error al cambiar el rol" +e.getMessage());
+	}
+	finally {
+		con.close();
+	}
+	return row;//Retorna cantidad de filas afectadas
+}
+
 }

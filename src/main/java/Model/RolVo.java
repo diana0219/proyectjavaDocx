@@ -8,6 +8,7 @@ public class RolVo {
 	private int idRol;
 	private String rol;
 	private String usuario;
+	private ControlUsuarioVo conU;
 	
 	
 	//Constructores
@@ -18,14 +19,20 @@ public class RolVo {
 	}
 
 
-	
 
-	public RolVo(int idRol, String rol, String usuario) {
+	public RolVo(int idRol, String rol, String usuario, ControlUsuarioVo conU) {
 		super();
 		this.idRol = idRol;
 		this.rol = rol;
 		this.usuario = usuario;
+		this.conU = conU;
 	}
+
+
+
+
+
+
 
 
 
@@ -63,6 +70,18 @@ public class RolVo {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+
+
+	public ControlUsuarioVo getConU() {
+		return conU;
+	}
+
+
+
+	public void setConU(ControlUsuarioVo conU) {
+		this.conU = conU;
 	}
 
 

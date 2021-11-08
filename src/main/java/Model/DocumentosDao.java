@@ -12,7 +12,7 @@ public class DocumentosDao {
 	
 	Connection con;
 	
-	public DocumentosDao(){
+	public DocumentosDao() throws ClassNotFoundException{
 		Conexion c=new Conexion();
 		con=c.conexion();
 		
@@ -91,8 +91,7 @@ public class DocumentosDao {
 		
 		PreparedStatement ps;
 		
-		
-		
+	
 		
 		try {
 			ps= con.prepareStatement("insert into documentos (nombre_documento, obligatorio_s_n) values (?,?)");
@@ -100,6 +99,7 @@ public class DocumentosDao {
 			ps.setString(2, docvo.getObligatorio_s_n());
 			 ps.execute();
 			 return true;
+			 
 			
 			
 		}catch(Exception e) {
@@ -159,5 +159,10 @@ public class DocumentosDao {
 		}
 		
 		
+	}
+
+	private int _id() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

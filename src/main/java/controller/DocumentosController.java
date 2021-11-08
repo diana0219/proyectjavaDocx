@@ -31,7 +31,13 @@ public class DocumentosController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		DocumentosDao docdao = new DocumentosDao();
+		DocumentosDao docdao = null;
+		try {
+			docdao = new DocumentosDao();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String accion;
 		RequestDispatcher dispatcher = null;
 		
@@ -40,6 +46,22 @@ public class DocumentosController extends HttpServlet {
 		if(accion == null || accion.isEmpty()) {
 			dispatcher = request.getRequestDispatcher("views/documentos.jsp");
 			
+			List<DocumentosVo> listaDocumentos =docdao.listarDocumentos();
+			request.setAttribute("lista", listaDocumentos);
+			
+		}else if ("nuevo".equals(accion)) {
+			dispatcher =request.getRequestDispatcher("views/doc-agreg.jsp");
+			
+		}else if ("insertar".equals(accion)) {	
+			
+			String  nombre_documento =request.getParameter("nombre_documento");
+			String  obligatorio_s_n =request.getParameter(" obligatorio_s_n ");
+			int existencia= Integer.parseInt(request.getParameter("existencia"));
+			
+			DocumentosVo docvo =new DocumentosVo (0, nombre_documento, obligatorio_s_n);
+			
+			docdao.insertar(docvo);
+			dispatcher = request.getRequestDispatcher("views/documentos.jsp");
 			List<DocumentosVo> listaDocumentos =docdao.listarDocumentos();
 			request.setAttribute("lista", listaDocumentos);
 			
